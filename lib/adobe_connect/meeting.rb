@@ -46,6 +46,18 @@ module AdobeConnect
       permissions_update(principal_id, 'remove')
     end
 
+    def public!
+      permissions_update('public-access', 'view-hidden')
+    end
+
+    def protected!
+      permissions_update('public-access', 'remove')
+    end
+
+    def private!
+      permissions_update('public-access', 'denied')
+    end
+
     def self.config
       super.merge({ :ac_obj_type => 'sco', :delete_method_is_plural => false })
     end
