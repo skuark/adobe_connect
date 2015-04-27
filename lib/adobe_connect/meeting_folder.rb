@@ -50,7 +50,7 @@ module AdobeConnect
     def self.my_meetings_folder_id(service = AdobeConnect::Service.new)
       response = service.sco_shortcuts({})
       response.at_xpath('//shortcuts').children.select{|s|
-        s.attr('type') == 'my-meetings'
+        s.attr('type') == 'user-meetings'
       }[0].attr('sco-id')
     end
   end
