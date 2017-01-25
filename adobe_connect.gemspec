@@ -6,8 +6,8 @@ require 'adobe_connect/version'
 Gem::Specification.new do |gem|
   gem.name          = 'adobe_connect'
   gem.version       = AdobeConnect::VERSION
-  gem.authors       = ['Zach Pendleton']
-  gem.email         = ['zachpendleton@gmail.com']
+  gem.authors       = ['Zach Pendleton', 'Isaiah Fischer', 'Leon Miller-Out']
+  gem.email         = ['zachpendleton@gmail.com', 'isaiah@singlebrook.com', 'leon@singlebrook.com']
   gem.description   = %q{An API wrapper for interacting with Adobe Connect services.}
   gem.summary       = %q{An API wrapper for Adobe Connect services.}
   gem.license       = 'MIT'
@@ -19,7 +19,7 @@ Gem::Specification.new do |gem|
   gem.require_paths = ['lib']
 
   gem.add_dependency 'activesupport', '>= 2.3.17'
-  gem.add_dependency 'nokogiri',      '~> 1.5.5'
+  gem.add_dependency 'nokogiri',      '>= 1.5.5', '< 1.7'
   gem.add_dependency 'rake',          '>= 0.9.2'
 
   gem.add_development_dependency 'minitest',    '~> 4.6.0'
