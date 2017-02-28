@@ -69,6 +69,14 @@ module AdobeConnect
       end
     end
 
+    def self.find_by_type(type, service = AdobeConnect::Service.new)
+      response = service.principal_list(:filter_type => type)
+
+      if principal = response.at_xpath('//principal')
+        self.load_from_xml(principal)
+      end
+    end
+
     private
     def update_membership(user, status)
       response = service.group_membership_update({
