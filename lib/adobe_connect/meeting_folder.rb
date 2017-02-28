@@ -58,5 +58,33 @@ module AdobeConnect
         folder.attr('sco-id')
       end
     end
+
+    def self.my_meetings_folder_id_by_user_email(email, service = AdobeConnect::Service.new)
+      response = AdobeConnect::Service.new.principal_list(filter_email: email)
+      principal = response.at_xpath('//principal')
+
+      return nil if principal.nil?
+
+      user_login = principal.at('login').text
+
+      response = AdobeConnect::Service.new.sco_shortcuts({})
+      users_meetings_folder = response.at_xpath('//shortcuts').children.select{|s|
+        s.attr('type') == 'user-meetings'
+      }[0]
+      user_meetings_folder_id = users_meetings_folder.attr('sco-id')
+
+      response = AdobeConnect::Service.new.sco_contents({
+        sco_id: user_meetings_folder_id
+      })
+      user_meetings_folder = response.at('scos').children.select{|s|
+        s.at('name').text == user_login
+      }[0]
+
+      if (user_meetings_folder.nil?)
+        return nil
+      else
+        return user_meetings_folder.attr('sco-id')
+      end
+    end
   end
 end
