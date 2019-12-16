@@ -76,7 +76,9 @@ module AdobeConnect
     # Public: Execute a call against the Adobe Connect instance.
     #
     # action      - The name of the API action to call.
-    # params      - A hash of params to pass in the request.
+    # params      - A hash of params to pass in the request. The value of the :extra_query_string param will be
+    #               appended to the request URL. This is sometimes necessary because the API allows for repeated
+    #               parameters and sometimes the order of the parameters is important.
     # use_session - If true, require an active session (default: true).
     #
     # Returns an AdobeConnect::Response.
@@ -86,8 +88,16 @@ module AdobeConnect
         params[:session] = session
       end
 
+      if params[:extra_query_string]
+        extra_query_string = params[:extra_query_string]
+        raise 'Invalid argument. extra_query_string should start with &.' unless extra_query_string.start_with?('&')
+
+        params.delete :extra_query_string
+      end
+
       query_string = ParamFormatter.new(params).format
-      response     = client.get("/api/xml?action=#{action}#{query_string}")
+
+      response     = client.get("/api/xml?action=#{action}#{query_string}#{extra_query_string}")
       AdobeConnect::Response.new(response)
     end
   end
